@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import registrationSchema from '../validation/registrationSchema';
 import axios from 'axios';
 import '../css/style.css';
 
@@ -14,22 +15,56 @@ const Register = () => {
         confirmPassword: '',
     });
 
+    const [formErrors, setFormErrors] = useState({});
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+    const validateForm = async () => {
+        try {
+            await registrationSchema.validate(formData, { abortEarly: false });
+            return true; // If validation passes
+        } catch (error) {
+            const errors = {};
+            error.inner.forEach(err => {
+                errors[err.path] = err.message;
+            });
+            setFormErrors(errors);
+            return false;
+        }
+    };
+
     const handleChange = (e) => {
+        const { name, value } = e.target;
+    
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
+        if (name === 'password' || name === 'confirmPassword') {
+            setPasswordsMatch(formData.password === value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const isValid = await validateForm();
+
+        if (!isValid) {
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3001/api/register', formData);
             console.log('Server response:', response.data);
             alert('Registration successful!');
         } catch (error) {
             console.error('Error submitting registration form:', error);
-            alert('Registration failed. Please try again.');
+            if (error.response) {
+                alert(`Registration failed: ${error.response.data.message}`);
+            } else if (error.request) {
+                alert('No response received from the server. Please check your internet connection.');
+            } else {
+                alert('An unexpected error occurred. Please try again later.');
+            }
         }
     };
 
@@ -52,6 +87,7 @@ const Register = () => {
                             value={formData.firstName}
                             onChange={handleChange}
                         />
+                        {formErrors.firstName && <p className="error-text">{formErrors.firstName}</p>}
                     </div>
                     <div className="form-group">
                         <label>Middle Name:</label>
@@ -70,6 +106,7 @@ const Register = () => {
                             value={formData.lastName}
                             onChange={handleChange}
                         />
+                        {formErrors.lastName && <p className="error-text">{formErrors.lastName}</p>}
                     </div>
                     <div className="form-group">
                         <label>Email:</label>
@@ -79,6 +116,7 @@ const Register = () => {
                             value={formData.email}
                             onChange={handleChange}
                         />
+                        {formErrors.email && <p className="error-text">{formErrors.email}</p>}
                     </div>
                     <div className="form-group">
                         <label>Username:</label>
@@ -88,6 +126,7 @@ const Register = () => {
                             value={formData.username}
                             onChange={handleChange}
                         />
+                        {formErrors.username && <p className="error-text">{formErrors.username}</p>}
                     </div>
                     <div className="form-group">
                         <label>Password:</label>
@@ -97,6 +136,7 @@ const Register = () => {
                             value={formData.password}
                             onChange={handleChange}
                         />
+                        {formErrors.password && <p className="error-text">{formErrors.password}</p>}
                     </div>
                     <div className="form-group">
                         <label>Confirm Password:</label>
@@ -106,6 +146,7 @@ const Register = () => {
                             value={formData.confirmPassword}
                             onChange={handleChange}
                         />
+                        {!passwordsMatch && <p className="error-text">{formErrors.confirmPassword}</p>}
                     </div>
                     <button type="submit" className="register-button">
                         Register
