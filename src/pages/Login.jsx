@@ -59,6 +59,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error submitting login form:', error);
+      alert('Error logging in. Check Credentials. Please try again.');
     }
   };
 
@@ -89,6 +90,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error submitting login form:', error);
+      alert('Error logging in. Check Credentials. Please try again.');
     }
   };
 
