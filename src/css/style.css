@@ -1,0 +1,357 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+
+.top-bar {
+    background-color: #1877f2;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.top-bar-content {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+.blog-container {
+    max-width: 960px;
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.blogs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.blog-item {
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.blog-item:hover {
+    transform: scale(1.03);
+}
+
+.blog-item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.blog-item h3 {
+    margin: 10px 0;
+}
+
+.blog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.view-more-button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.view-more-button:hover {
+    background-color: #2158a6;
+}
+
+.blog-details-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.comment-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f6f7f8;
+    border-radius: 8px;
+    max-width: 100%;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: auto;
+    box-sizing: border-box;
+    height: auto;
+}
+
+button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #2158a6;
+}
+
+/* This is for the Register.JSX */
+.register-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.register-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f6f7f8;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.register-header,
+.link-login {
+    text-align: center;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 3px;
+}
+
+.register-button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.register-button:hover {
+    background-color: #2158a6;
+}
+
+/* This is for the Login.JSX */
+.login-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f6f7f8;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: calc(100% - 16px);
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 3px;
+}
+
+.login-button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.login-button:hover {
+    background-color: #2158a6;
+}
+
+/* Design for Home.JSX*/
+.home-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.home-blog-item {
+    width: 100%;
+    max-width: 600px; /* Adjust the maximum width of each blog item as needed */
+    margin-bottom: 20px; /* Add spacing between blog items */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: left;
+  }
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.nav-bar {
+    background-color: #1877f2;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    max-width: 960px;
+    margin: 10px auto 0; 
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.nav-item {
+    margin: 0;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav-item a:hover {
+    background-color: #2158a6;
+    /* Darker shade of Facebook blue on hover */
+}
+
+/*RECENT COMMENT CSS*/
+.comment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.comment-table th, .comment-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.comment-table th {
+    background-color: #f2f2f2;
+}
+
+.comment-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.comment-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+.comment-table button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.comment-table button:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .blog-item {
+        width: 100%;
+    }
+}
