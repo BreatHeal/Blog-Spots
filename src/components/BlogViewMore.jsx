@@ -90,7 +90,7 @@ const BlogViewMore = () => {
         <div>
             <div className="top-bar">
                 <div className="top-bar-content">
-                    <h1>BlogSpots</h1>
+                    <h1>MingleMingle</h1>
                 </div>
             </div>
             <div className="blog-details-container">

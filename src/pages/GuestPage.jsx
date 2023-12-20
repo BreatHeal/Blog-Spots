@@ -19,7 +19,7 @@ const GuestHome = () => {
     <div>
       <div className="top-bar">
         <div className="top-bar-content">
-          <h1>BlogSpots</h1>
+          <h1>MingleMingle</h1>
           <p>Welcome, Guest!</p>
         </div>
       </div>
