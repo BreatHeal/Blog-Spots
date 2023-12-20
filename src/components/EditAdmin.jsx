@@ -38,7 +38,7 @@ const ViewAdmin = () => {
         return;
       }
       const { username, email, newPassword } = updatedAdmin;
-      
+
       const updatedAdminData = newPassword
         ? { username, email, password: newPassword }
         : { username, email };

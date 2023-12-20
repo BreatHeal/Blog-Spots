@@ -107,9 +107,6 @@ const Login = () => {
       </div>
 
       <div className="login-container">
-        <button className="start-button" type="button" onClick={handleGoToStart}>
-          View Blogs Now
-        </button>
         <h1>Login</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -138,6 +135,10 @@ const Login = () => {
             Login as Guest
           </button>
         </form>
+        <p>View Recent Blogs Now!</p>
+        <button className="start-button" type="button" onClick={handleGoToStart}>
+          View Blogs Now
+        </button>
         <p className="link-register">
           Haven't registered? <Link to="/register">Register here</Link>.
         </p>
