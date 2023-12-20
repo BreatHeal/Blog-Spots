@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import RecentBlogs from '../components/RecentBlog';
+import { useNavigate } from 'react-router-dom';
 
 const GuestHome = () => {
+  const navigate = useNavigate();
   const [activeContent, setActiveContent] = useState('recentBlogs');
 
   const handleNavItemClick = (content) => {
@@ -11,7 +13,8 @@ const GuestHome = () => {
   const handleGoBack = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
     if (confirmLogout) {
-      window.history.back();
+      navigate('/login');
+      window.location.reload();
     }
   };
 

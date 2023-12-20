@@ -1,11 +1,12 @@
 import RecentBlogs from '../components/RecentBlog';
 import EditAccount from '../components/EditAccount';
 import RecentComments from '../components/RecentComment';
-
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useUserContext } from '../context/UserContext';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { user } = useUserContext();
   const [activeContent, setActiveContent] = useState('recentBlogs');
 
@@ -16,8 +17,8 @@ const Home = () => {
   const handleGoBack = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
     if (confirmLogout) {
-      useUserContext.setUser(null);
-      window.history.back();
+      navigate('/login');
+      window.location.reload();
     }
   };
 
