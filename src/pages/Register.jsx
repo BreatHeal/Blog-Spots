@@ -21,7 +21,7 @@ const Register = () => {
     const validateForm = async () => {
         try {
             await registrationSchema.validate(formData, { abortEarly: false });
-            return true; // If validation passes
+            return true; 
         } catch (error) {
             const errors = {};
             error.inner.forEach(err => {

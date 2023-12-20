@@ -94,6 +94,10 @@ const Login = () => {
     }
   };
 
+  const handleGoToStart = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <div className="top-bar">
@@ -103,6 +107,9 @@ const Login = () => {
       </div>
 
       <div className="login-container">
+        <button className="start-button" type="button" onClick={handleGoToStart}>
+          Go to Start Page
+        </button>
         <h1>Login</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">

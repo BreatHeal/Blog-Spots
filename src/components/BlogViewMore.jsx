@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUserContext } from '../context/UserContext.jsx';
 import '../css/style.css';
@@ -10,24 +10,26 @@ const BlogViewMore = () => {
     const [blog, setBlog] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch blog details by ID
         axios.get(`http://localhost:3001/api/blogs/${id}`)
             .then(response => {
                 setBlog(response.data);
             })
             .catch(error => {
                 console.error('Error fetching blog details:', error);
+                setError('Error fetching blog details. Please try again later.');
             });
 
-        // Fetch comments for the blog
         axios.get(`http://localhost:3001/api/blogs/${id}/comments`)
             .then(response => {
                 setComments(response.data);
             })
             .catch(error => {
                 console.error('Error fetching comments:', error);
+                setError('Error fetching comments. Please try again later.');
             });
     }, [id]);
 
@@ -42,6 +44,17 @@ const BlogViewMore = () => {
     };
 
     const handleCommentSubmit = async () => {
+        
+        if (!user || !user.user_id) {
+            const shouldLogin = window.confirm('You need to log in to add a comment. Do you want to log in now?');
+
+            if (shouldLogin) {
+                navigate('/login');
+            }
+
+            return;
+        }
+
         try {
             const response = await axios.post(`http://localhost:3001/api/blogs/${id}/comments`, {
                 text: newComment,
@@ -50,22 +63,28 @@ const BlogViewMore = () => {
 
             const newCommentData = response.data;
 
-            setComments(prevComments => [
-                ...prevComments,
-                {
-                    id: newCommentData.commentId,
-                    text: newCommentData.text,
-                    user: {
-                        user_id: newCommentData.userId,
-                    },
+            const updatedComment = {
+                id: newCommentData.commentId,
+                text: newCommentData.text,
+                user: {
+                    user_id: user.user_id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
                 },
-            ]);
+            };
 
+            const updatedCommentsResponse = await axios.get(`http://localhost:3001/api/blogs/${id}/comments`);
+            const updatedComments = updatedCommentsResponse.data;
+
+            setComments(updatedComments);
             setNewComment('');
+            alert('Comment added successfully!');
         } catch (error) {
             console.error('Error adding comment:', error);
+            setError('Error adding comment. Please try again later.');
         }
     };
+
 
     return (
         <div>
@@ -111,6 +130,7 @@ const BlogViewMore = () => {
                             <br />
                             <button onClick={handleCommentSubmit} className="comment-submit-btn">Add Comment</button>
                         </div>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
                     </>
                 ) : (
                     <p>Loading...</p>

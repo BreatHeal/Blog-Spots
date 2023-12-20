@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./db');
 const app = express();
@@ -6,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
@@ -82,7 +84,6 @@ app.post('/api/blogs', upload.single('image'), (req, res) => {
 app.delete('/api/blogs/:id', (req, res) => {
   const blogId = req.params.id;
 
-  // Check if the blog exists
   const checkBlogQuery = 'SELECT * FROM blogs WHERE blog_id = ?';
   db.query(checkBlogQuery, [blogId], (checkError, checkResults) => {
     if (checkError) {
@@ -92,7 +93,7 @@ app.delete('/api/blogs/:id', (req, res) => {
       if (checkResults.length === 0) {
         res.status(404).json({ error: 'Blog not found' });
       } else {
-        // Delete the blog
+
         const deleteBlogQuery = 'DELETE FROM blogs WHERE blog_id = ?';
         db.query(deleteBlogQuery, [blogId], (deleteError) => {
           if (deleteError) {
@@ -103,6 +104,45 @@ app.delete('/api/blogs/:id', (req, res) => {
           }
         });
       }
+    }
+  });
+});
+
+// Update a blog by ID
+app.put('/api/blogs/content/:id', (req, res) => {
+  const blogId = req.params.id;
+  const { title, summary, content } = req.body;
+
+  const updateQuery = 'UPDATE blogs SET title = ?, summary = ?, content = ? WHERE blog_id = ?';
+
+  db.query(updateQuery, [title, summary, content, blogId], (error, results) => {
+    if (error) {
+      console.error('Error updating blog:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json({ message: 'Blog updated successfully' });
+    }
+  });
+});
+
+// Updating blog image
+app.put('/api/blogs/image/:id', upload.single('image'), (req, res) => {
+  const blogId = req.params.id;
+  let image = null;
+
+  if (req.file) {
+    const imageBuffer = req.file.buffer.toString('base64');
+    image = Buffer.from(imageBuffer, 'base64');
+  }
+
+  const updateImageQuery = 'UPDATE blogs SET image = ? WHERE blog_id = ?';
+
+  db.query(updateImageQuery, [image, blogId], (error, results) => {
+    if (error) {
+      console.error('Error updating blog image:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json({ message: 'Blog image updated successfully' });
     }
   });
 });
@@ -195,6 +235,20 @@ app.post('/api/blogs/:id/comments', (req, res) => {
   });
 });
 
+// Fetch all comments
+app.get('/api/comments', (req, res) => {
+  const query = 'SELECT * FROM comments';
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching comments:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 // Fetch recent comments for a user
 app.get('/api/users/:userId/comments', (req, res) => {
   const userId = req.params.userId;
@@ -211,7 +265,7 @@ app.get('/api/users/:userId/comments', (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
       const commentsWithBlog = results.map(comment => ({
-        id: comment.comment_id,  
+        id: comment.comment_id,
         text: comment.text,
         blog: {
           title: comment.blog_title,
@@ -239,7 +293,21 @@ app.delete('/api/comments/:commentId', (req, res) => {
   });
 });
 
-// update user information
+//fetch all users
+app.get('/api/users', (req, res) => {
+  const query = "SELECT * FROM users WHERE role = 'User'";
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// update user information by id
 app.put('/api/users/:userId', (req, res) => {
   const userId = req.params.userId;
   const updatedUser = req.body;
@@ -256,6 +324,21 @@ app.put('/api/users/:userId', (req, res) => {
   });
 });
 
+// Add this endpoint to delete a user by ID
+app.delete('/api/users/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  const deleteQuery = 'DELETE FROM users WHERE user_id = ?';
+
+  db.query(deleteQuery, [userId], (error) => {
+    if (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json({ message: 'User deleted successfully' });
+    }
+  });
+});
 
 const PORT = process.env.PORT || 3001;
 

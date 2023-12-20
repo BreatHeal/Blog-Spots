@@ -5,82 +5,82 @@ import '../css/style.css';
 
 const EditBlog = () => {
     const { id } = useParams();
-    const [blog, setBlog] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedTitle, setEditedTitle] = useState('');
-    const [editedSummary, setEditedSummary] = useState('');
-    const [editedContent, setEditedContent] = useState('');
-    const [editedImage, setEditedImage] = useState(null);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [summary, setSummary] = useState('');
+    const [image, setImage] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/api/blogs/${id}`)
             .then(response => {
-                setBlog(response.data);
-                setEditedTitle(response.data.title);
-                setEditedSummary(response.data.summary);
-                setEditedContent(response.data.content);
+                setTitle(response.data.title);
+                setSummary(response.data.summary);
+                setContent(response.data.content);
             })
             .catch(error => {
                 console.error('Error fetching blog details:', error);
-            });
+                setError('Oops! Something went wrong. Please try again later.');
+            })
+            .finally(() => setLoading(false));
     }, [id]);
 
-    const arrayBufferToBase64 = buffer => {
-        let binary = '';
-        let bytes = new Uint8Array(buffer.data);
-        let len = bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    };
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-
-    const handleSaveClick = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('title', editedTitle);
-            formData.append('summary', editedSummary);
-            formData.append('content', editedContent);
-            if (editedImage) {
-                formData.append('image', editedImage);
-            }
-
-            await axios.put(`http://localhost:3001/api/blogs/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            setBlog(prevBlog => ({
-                ...prevBlog,
-                title: editedTitle,
-                summary: editedSummary,
-                content: editedContent,
-                image: editedImage ? URL.createObjectURL(editedImage) : prevBlog.image,
-            }));
-
-            setIsEditing(false);
-        } catch (error) {
-            console.error('Error updating blog content:', error);
-        }
-    };
-
-    const handleCancelClick = () => {
-        setIsEditing(false);
-        setEditedTitle(blog.title);
-        setEditedSummary(blog.summary);
-        setEditedContent(blog.content);
-        setEditedImage(null);
-    };
-
     const handleImageChange = (e) => {
-        const selectedImage = e.target.files[0];
-        setEditedImage(selectedImage);
+        const file = e.target.files[0];
+        setImage(file);
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const isConfirmed = window.confirm('Are you sure you want to update this blog?');
+
+        if (isConfirmed) {
+            console.log('Title:', title);
+            console.log('Summary:', summary);
+            console.log('Content:', content);
+
+            axios.put(`http://localhost:3001/api/blogs/content/${id}`, {
+                title,
+                summary,
+                content,
+            })
+                .then(response => {
+                    console.log('Blog updated successfully:', response.data);
+                    alert('Blog updated successfully');
+                    window.history.back();
+                })
+                .catch(error => {
+                    console.error('Error updating blog:', error);
+                    alert('Error updating blog. Please try again later.');
+                });
+        }
+    };
+
+    const handleSaveImage = () => {
+        const imageFormData = new FormData();
+        imageFormData.append('image', image);
+
+        axios.put(`http://localhost:3001/api/blogs/image/${id}`, imageFormData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                console.log('Image saved successfully:', response.data);
+                alert('Image updated successfully');
+                window.history.back();
+            })
+            .catch(error => {
+                console.error('Error saving image:', error);
+                setError('Error saving image. Please try again later.');
+            });
+    };
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div>
@@ -89,79 +89,56 @@ const EditBlog = () => {
                     <h1>BlogSpots</h1>
                 </div>
             </div>
-    
-            <div className="blog-details-container">
-                {blog ? (
-                    <>
-                        <h1>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editedTitle}
-                                    onChange={(e) => setEditedTitle(e.target.value)}
-                                />
-                            ) : (
-                                blog.title
-                            )}
-                        </h1>
-                        {blog.image && (
-                            <img
-                                className="blog-image"
-                                src={`data:image/jpeg;base64,${arrayBufferToBase64(blog.image)}`}
-                                alt={`Image for ${blog.title}`}
+
+            <div className="blog-container">
+                <div className="admin-content">
+                    <h3>Edit Blog</h3>
+
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Title:
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
                             />
+                        </label>
+                        <br />
+                        <label>
+                            Summary:
+                            <textarea
+                                value={summary}
+                                onChange={(e) => setSummary(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Content:
+                            <textarea
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Image:
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                            />
+                        </label>
+                        <br />
+                        <button type="submit">Save Changes</button>
+                        {image && (
+                            <button type="button" onClick={handleSaveImage}>
+                                Save Image
+                            </button>
                         )}
-    
-                        <p>
-                            {isEditing ? (
-                                <textarea
-                                    rows="4"
-                                    cols="50"
-                                    value={editedContent}
-                                    onChange={(e) => setEditedContent(e.target.value)}
-                                />
-                            ) : (
-                                blog.content
-                            )}
-                        </p>
-
-                        <p>
-                            Summary: 
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editedSummary}
-                                    onChange={(e) => setEditedSummary(e.target.value)}
-                                />
-                            ) : (
-                                blog.summary
-                            )}
-                        </p>
-
-                        {isEditing && (
-                            <div>
-                                <label htmlFor="imageInput">Select New Image:</label>
-                                <input
-                                    type="file"
-                                    id="imageInput"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                />
-                            </div>
-                        )}
-
-                        {isEditing ? (
-                            <>
-                                <button onClick={handleSaveClick}>Save</button>
-                                <button onClick={handleCancelClick}>Cancel</button>
-                            </>
-                        ) : (
-                            <button onClick={handleEditClick}>Edit</button>
-                        )}
-                    </>
-                ) : (
-                    <p>Loading...</p>
-                )}
+                    </form>
+                </div>
             </div>
         </div>
     );

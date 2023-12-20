@@ -7,6 +7,7 @@ import BlogViewMore from './components/BlogViewMore';
 import EditBlog from './components/EditBlog';
 import React, { useState } from 'react';
 import GuestHome from './pages/GuestPage';
+import StartPage from './pages/StartPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -14,7 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login user={user}/>} />
+        <Route path="/" element={<StartPage user={user}/>} />
         <Route path="/home" element={<Home  />} />
         <Route path="/guest" element={<GuestHome />} />
 

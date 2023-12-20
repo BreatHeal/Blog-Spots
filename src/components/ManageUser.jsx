@@ -22,31 +22,56 @@ const ManageUsers = () => {
   }, []);
 
   const handleDeleteClick = (userId) => {
-    // Handle delete action, you can show a confirmation modal and make a delete request
-    console.log('Delete user:', userId);
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      axios.delete(`http://localhost:3001/api/users/${userId}`)
+        .then(response => {
+  
+          setUsers(prevUsers => prevUsers.filter(user => user.user_id !== userId));
+          console.log('User deleted successfully:', response.data.message);
+        })
+        .catch(error => {
+          console.error('Error deleting user:', error);
+        });
+    }
   };
 
   return (
-    <div className="admin-content">
-      <h3>Manage Users</h3>
-
-      {loading && <p>Loading...</p>}
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <ul>
-        {!loading && !error && users.map(user => (
-          <li key={user.user_id}>
-            {user.username}
-            <button
-              className="action-button"
-              onClick={() => handleDeleteClick(user.user_id)}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="blog-container">
+      <div className="admin-content">
+        <h3>Manage Users</h3>
+  
+        {loading && <p>Loading...</p>}
+  
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+  
+        {users.length > 0 ? (
+          <table className="user-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!loading && !error && users.map(user => (
+                <tr key={user.user_id}>
+                  <td>{user.username}</td>
+                  <td>
+                    <button
+                      className="action-button"
+                      onClick={() => handleDeleteClick(user.user_id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No users available.</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// AddBlog.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/style.css';
@@ -17,23 +16,28 @@ const AddBlogs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('summary', summary); 
-    if (image) {
-      formData.append('image', image);
+  
+    const isConfirmed = window.confirm('Are you sure you want to add this blog?');
+  
+    if (isConfirmed) {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('summary', summary); 
+      if (image) {
+        formData.append('image', image);
+      }
+  
+      axios.post('http://localhost:3001/api/blogs', formData)
+        .then(response => {
+          console.log('Blog added successfully:', response.data);
+          alert('Blog added successfully');
+        })
+        .catch(error => {
+          console.error('Error adding blog:', error);
+          alert('Error adding blog. Please try again later.');
+        });
     }
-
-    axios.post('http://localhost:3001/api/blogs', formData)
-      .then(response => {
-        console.log('Blog added successfully:', response.data);
-      })
-      .catch(error => {
-        console.error('Error adding blog:', error);
-        setError('Error adding blog. Please try again later.');
-      });
   };
 
   return (

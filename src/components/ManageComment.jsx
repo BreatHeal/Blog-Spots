@@ -22,31 +22,55 @@ const ManageComments = () => {
   }, []);
 
   const handleDeleteClick = (commentId) => {
-    // Handle delete action, you can show a confirmation modal and make a delete request
-    console.log('Delete comment:', commentId);
+    if (window.confirm('Are you sure you want to delete this comment?')) {
+      axios.delete(`http://localhost:3001/api/comments/${commentId}`)
+        .then(response => {
+          setComments(prevComments => prevComments.filter(comment => comment.comment_id !== commentId));
+          console.log('Comment deleted successfully:', response.data.message);
+        })
+        .catch(error => {
+          console.error('Error deleting comment:', error);
+        });
+    }
   };
 
   return (
-    <div className="admin-content">
-      <h3>Manage Comments</h3>
+    <div className="blog-container">
+      <div className="admin-content">
+        <h3>Manage Comments</h3>
 
-      {loading && <p>Loading...</p>}
+        {loading && <p>Loading...</p>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <ul>
-        {!loading && !error && comments.map(comment => (
-          <li key={comment.comment_id}>
-            {comment.text}
-            <button
-              className="action-button"
-              onClick={() => handleDeleteClick(comment.comment_id)}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+        {comments.length > 0 ? (
+          <table className="comment-table">
+            <thead>
+              <tr>
+                <th>Comment Text</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!loading && !error && comments.map(comment => (
+                <tr key={comment.comment_id}>
+                  <td>{comment.text}</td>
+                  <td>
+                    <button
+                      className="action-button"
+                      onClick={() => handleDeleteClick(comment.comment_id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No comments available.</p>
+        )}
+      </div>
     </div>
   );
 };

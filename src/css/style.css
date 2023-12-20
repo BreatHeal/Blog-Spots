@@ -313,30 +313,36 @@ input {
 }
 
 /*RECENT COMMENT CSS*/
+.user-table,
 .comment-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
+.user-table th, .user-table td,
 .comment-table th, .comment-table td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
 }
 
+.user-table th,
 .comment-table th {
     background-color: #f2f2f2;
 }
 
+.user-table tr:nth-child(even),
 .comment-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+.user-table tr:hover,
 .comment-table tr:hover {
     background-color: #f0f0f0;
 }
 
+.user-table button,
 .comment-table button {
     background-color: #e74c3c;
     color: #fff;
@@ -346,6 +352,7 @@ input {
     border-radius: 4px;
 }
 
+.user-table button:hover,
 .comment-table button:hover {
     background-color: #c0392b;
 }
