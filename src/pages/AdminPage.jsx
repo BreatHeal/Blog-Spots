@@ -19,7 +19,6 @@ const AdminPage = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
     if (confirmLogout) {
       navigate('/login');
-      window.location.reload();
     }
   };
 
