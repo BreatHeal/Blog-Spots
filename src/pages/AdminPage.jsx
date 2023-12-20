@@ -4,9 +4,11 @@ import ManageComments from '../components/ManageComment';
 import ManageUsers from '../components/ManageUser';
 import AddBlogs from '../components/AddBlog';
 import EditAdmin from '../components/EditAdmin';
+import { useNavigate } from 'react-router-dom';
 import '../css/style.css';
 
 const AdminPage = () => {
+  const navigate = useNavigate();
   const [activeContent, setActiveContent] = useState('manageBlogs');
 
   const handleNavItemClick = (content) => {
@@ -16,7 +18,8 @@ const AdminPage = () => {
   const handleGoBack = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
     if (confirmLogout) {
-      window.history.back();
+      navigate('/login');
+      window.location.reload();
     }
   };
 
