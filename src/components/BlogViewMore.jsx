@@ -14,7 +14,7 @@ const BlogViewMore = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/blogs/${id}`)
+        axios.get(`https://blog-spots-service.onrender.com/api/blogs/${id}`)
             .then(response => {
                 setBlog(response.data);
             })
@@ -23,7 +23,7 @@ const BlogViewMore = () => {
                 setError('Error fetching blog details. Please try again later.');
             });
 
-        axios.get(`http://localhost:3001/api/blogs/${id}/comments`)
+        axios.get(`https://blog-spots-service.onrender.com/api/blogs/${id}/comments`)
             .then(response => {
                 setComments(response.data);
             })
@@ -56,7 +56,7 @@ const BlogViewMore = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:3001/api/blogs/${id}/comments`, {
+            const response = await axios.post(`https://blog-spots-service.onrender.com/api/blogs/${id}/comments`, {
                 text: newComment,
                 userId: user.user_id,
             });
@@ -73,7 +73,7 @@ const BlogViewMore = () => {
                 },
             };
 
-            const updatedCommentsResponse = await axios.get(`http://localhost:3001/api/blogs/${id}/comments`);
+            const updatedCommentsResponse = await axios.get(`https://blog-spots-service.onrender.com/api/blogs/${id}/comments`);
             const updatedComments = updatedCommentsResponse.data;
 
             setComments(updatedComments);

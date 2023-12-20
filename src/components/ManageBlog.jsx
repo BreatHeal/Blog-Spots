@@ -10,7 +10,7 @@ const ManageBlogs = () => {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/blogs')
+    axios.get('https://blog-spots-service.onrender.com/api/blogs')
       .then(response => {
         setBlogs(response.data);
         setLoading(false);
@@ -46,7 +46,7 @@ const ManageBlogs = () => {
     const isConfirmed = window.confirm('Are you sure you want to delete this blog?');
 
     if (isConfirmed) {
-      axios.delete(`http://localhost:3001/api/blogs/${blogId}`)
+      axios.delete(`https://blog-spots-service.onrender.com/api/blogs/${blogId}`)
         .then(response => {
           console.log('Blog deleted successfully:', response.data);
           alert('Blog deleted successfully');

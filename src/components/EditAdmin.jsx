@@ -14,7 +14,7 @@ const ViewAdmin = () => {
   useEffect(() => {
     const fetchAdminDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/admins/');
+        const response = await axios.get('https://blog-spots-service.onrender.com/api/admins/');
         setAdminDetails(response.data);
         // Set initial state of updatedAdmin with current admin details
         setUpdatedAdmin(response.data);
@@ -43,7 +43,7 @@ const ViewAdmin = () => {
         ? { username, email, password: newPassword }
         : { username, email };
   
-      await axios.put(`http://localhost:3001/api/users/${adminDetails.user_id}`, updatedAdminData);
+      await axios.put(`https://blog-spots-service.onrender.com/api/users/${adminDetails.user_id}`, updatedAdminData);
   
       setAlertMessage('Admin updated successfully');
       setUpdatedAdmin({ username: '', email: '', newPassword: '', confirmNewPassword: '' });

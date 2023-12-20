@@ -28,13 +28,13 @@ const Login = () => {
       let response;
       if (guest) {
         // Simulate guest login
-        response = await axios.post('http://localhost:3001/api/login', {
+        response = await axios.post('https://blog-spots-service.onrender.com/api/login', {
           username: 'Guest',
           password: 'Guest',
         });
       } else {
         // Regular login
-        response = await axios.post('http://localhost:3001/api/login', formData);
+        response = await axios.post('https://blog-spots-service.onrender.com/api/login', formData);
       }
 
       console.log('Login response:', response.data);
@@ -67,7 +67,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/api/login', formData);
+      const response = await axios.post('https://blog-spots-service.onrender.com/api/login', formData);
       console.log('Login response:', response.data);
 
       const userRole = response.data.role;

@@ -10,7 +10,7 @@ const RecentComments = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/users/${user.user_id}/comments`)
+    axios.get(`https://blog-spots-service.onrender.com/api/users/${user.user_id}/comments`)
       .then(response => {
         console.log(response.data);
         setComments(response.data);
@@ -22,7 +22,7 @@ const RecentComments = () => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:3001/api/comments/${commentId}`);
+      await axios.delete(`https://blog-spots-service.onrender.com/api/comments/${commentId}`);
       console.log('Comment deleted successfully');
       setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
     } catch (error) {

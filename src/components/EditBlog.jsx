@@ -13,7 +13,7 @@ const EditBlog = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/blogs/${id}`)
+        axios.get(`https://blog-spots-service.onrender.com/api/blogs/${id}`)
             .then(response => {
                 setTitle(response.data.title);
                 setSummary(response.data.summary);
@@ -41,7 +41,7 @@ const EditBlog = () => {
             console.log('Summary:', summary);
             console.log('Content:', content);
 
-            axios.put(`http://localhost:3001/api/blogs/content/${id}`, {
+            axios.put(`https://blog-spots-service.onrender.com/api/blogs/content/${id}`, {
                 title,
                 summary,
                 content,
@@ -62,7 +62,7 @@ const EditBlog = () => {
         const imageFormData = new FormData();
         imageFormData.append('image', image);
 
-        axios.put(`http://localhost:3001/api/blogs/image/${id}`, imageFormData, {
+        axios.put(`https://blog-spots-service.onrender.com/api/blogs/image/${id}`, imageFormData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

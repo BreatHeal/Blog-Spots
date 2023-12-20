@@ -53,7 +53,7 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/api/register', formData);
+            const response = await axios.post('https://blog-spots-service.onrender.com/api/register', formData);
             console.log('Server response:', response.data);
             alert('Registration successful!');
         } catch (error) {

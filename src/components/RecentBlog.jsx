@@ -10,7 +10,7 @@ const RecentBlogs = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/blogs') // Adjust the endpoint as needed
+        axios.get('https://blog-spots-service.onrender.com/api/blogs') // Adjust the endpoint as needed
             .then(response => {
                 setRecentBlogs(response.data);
                 setLoading(false);

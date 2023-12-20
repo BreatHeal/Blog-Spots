@@ -35,7 +35,7 @@ const EditAccount = ({ user }) => {
         updatedUser.password = newPassword;
       }
 
-      const response = await axios.put(`http://localhost:3001/api/users/${user.user_id}`, updatedUser);
+      const response = await axios.put(`https://blog-spots-service.onrender.com/api/users/${user.user_id}`, updatedUser);
 
       alert('User updated successfully');
       console.log('User updated successfully:', response.data);

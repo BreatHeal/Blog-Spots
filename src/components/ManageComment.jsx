@@ -9,7 +9,7 @@ const ManageComments = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/comments')
+    axios.get('https://blog-spots-service.onrender.com/api/comments')
       .then(response => {
         setComments(response.data);
         setLoading(false);
@@ -23,7 +23,7 @@ const ManageComments = () => {
 
   const handleDeleteClick = (commentId) => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
-      axios.delete(`http://localhost:3001/api/comments/${commentId}`)
+      axios.delete(`https://blog-spots-service.onrender.com/api/comments/${commentId}`)
         .then(response => {
           setComments(prevComments => prevComments.filter(comment => comment.comment_id !== commentId));
           console.log('Comment deleted successfully:', response.data.message);

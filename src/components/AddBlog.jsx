@@ -28,7 +28,7 @@ const AddBlogs = () => {
         formData.append('image', image);
       }
   
-      axios.post('http://localhost:3001/api/blogs', formData)
+      axios.post('https://blog-spots-service.onrender.com/api/blogs', formData)
         .then(response => {
           console.log('Blog added successfully:', response.data);
           alert('Blog added successfully');

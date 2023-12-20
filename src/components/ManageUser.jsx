@@ -9,7 +9,7 @@ const ManageUsers = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/users')
+    axios.get('https://blog-spots-service.onrender.com/api/users')
       .then(response => {
         setUsers(response.data);
         setLoading(false);
@@ -23,7 +23,7 @@ const ManageUsers = () => {
 
   const handleDeleteClick = (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      axios.delete(`http://localhost:3001/api/users/${userId}`)
+      axios.delete(`https://blog-spots-service.onrender.com/api/users/${userId}`)
         .then(response => {
   
           setUsers(prevUsers => prevUsers.filter(user => user.user_id !== userId));
