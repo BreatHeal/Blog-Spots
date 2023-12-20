@@ -96,6 +96,7 @@ const Login = () => {
 
   const handleGoToStart = () => {
     navigate('/');
+    window.location.reload();
   };
 
   return (
