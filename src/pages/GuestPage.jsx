@@ -13,7 +13,7 @@ const GuestHome = () => {
   const handleGoBack = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
     if (confirmLogout) {
-      navigate('/login');
+      navigate('/');
       window.location.reload();
     }
   };
