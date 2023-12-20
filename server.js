@@ -14,6 +14,11 @@ app.use(cors());
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+//starting route
+app.get('/', (req, res) => {
+  res.send('Hello Server!');
+});
+
 //Registering a User
 app.post('/api/register', (req, res) => {
   const { firstName, middleName, lastName, email, username, password } = req.body;
