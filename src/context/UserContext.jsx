@@ -13,7 +13,8 @@ const UserProvider = ({ children }) => {
       last_name: userData.last_name,
       username: userData.username,
       role: userData.role,
-      email: userData.email
+      email: userData.email,
+      password: userData.password
     };
 
     localStorage.setItem('user', JSON.stringify(updatedUserData));

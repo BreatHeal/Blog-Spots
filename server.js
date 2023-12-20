@@ -324,7 +324,7 @@ app.put('/api/users/:userId', (req, res) => {
   });
 });
 
-// Add this endpoint to delete a user by ID
+// delete a user by ID
 app.delete('/api/users/:userId', (req, res) => {
   const userId = req.params.userId;
 
@@ -336,6 +336,45 @@ app.delete('/api/users/:userId', (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
       res.json({ message: 'User deleted successfully' });
+    }
+  });
+});
+
+// Update user or admin information by id
+app.put('/api/users/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const updatedUser = req.body;
+
+  const updateQuery = 'UPDATE users SET ? WHERE user_id = ? AND role = ?';
+
+  db.query(updateQuery, [updatedUser, userId, 'Admin'], (error, results) => {
+    if (error) {
+      console.error('Error updating admin:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (results.affectedRows === 0) {
+        res.status(404).json({ error: 'Admin not found' });
+      } else {
+        res.json({ message: 'Admin updated successfully' });
+      }
+    }
+  });
+});
+
+// Fetch admin details
+app.get('/api/admins', (req, res) => {
+  const query = "SELECT * FROM users WHERE role = 'Admin'";
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching admin details:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (results.length === 0) {
+        res.status(404).json({ error: 'Admin not found' });
+      } else {
+        res.json(results[0]); // Assuming there's only one admin
+      }
     }
   });
 });

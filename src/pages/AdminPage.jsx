@@ -3,6 +3,7 @@ import ManageBlogs from '../components/ManageBlog';
 import ManageComments from '../components/ManageComment';
 import ManageUsers from '../components/ManageUser';
 import AddBlogs from '../components/AddBlog';
+import EditAdmin from '../components/EditAdmin';
 import '../css/style.css';
 
 const AdminPage = () => {
@@ -41,6 +42,9 @@ const AdminPage = () => {
           <button onClick={() => handleNavItemClick('manageUsers')}>Manage Users</button>
         </div>
         <div className="nav-item">
+          <button onClick={() => handleNavItemClick('editAdmin')}>Edit Admin</button>
+        </div>
+        <div className="nav-item">
           <button onClick={handleGoBack}>Log Out</button>
         </div>
       </div>
@@ -49,6 +53,7 @@ const AdminPage = () => {
       {activeContent === 'manageBlogs' && <ManageBlogs />}
       {activeContent === 'manageComments' && <ManageComments />}
       {activeContent === 'manageUsers' && <ManageUsers />}
+      {activeContent === 'editAdmin' && <EditAdmin />}
     </div>
   );
 };

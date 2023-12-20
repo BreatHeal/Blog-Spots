@@ -108,7 +108,7 @@ const Login = () => {
 
       <div className="login-container">
         <button className="start-button" type="button" onClick={handleGoToStart}>
-          Go to Start Page
+          View Blogs Now
         </button>
         <h1>Login</h1>
         <form className="login-form" onSubmit={handleSubmit}>
